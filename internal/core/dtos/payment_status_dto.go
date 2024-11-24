@@ -7,9 +7,9 @@ type PaymentStatusDTO struct {
 	PaymentStatus string `json:"payment_status"`
 }
 
-func NewPaymentStatusDTOFromEntity(order *entities.Order) *PaymentStatusDTO {
+func NewPaymentStatusDTOFromEntity(payment *entities.Payment) *PaymentStatusDTO {
 	return &PaymentStatusDTO{
-		OrderId:       order.GetId(),
-		PaymentStatus: order.GetPaymentStatus().String(),
+		OrderId:       payment.GetOrderID(),
+		PaymentStatus: payment.GetPaymentStatus().String(),
 	}
 }
