@@ -32,15 +32,6 @@ func (uc *PaymentOrderUseCase) checkValidPaymentStatus(
 }
 
 func (uc *PaymentOrderUseCase) checkValidOrder(orderID string) (*entities.Payment, error) {
-	// DEVERA BUSCAR A ORDER VIA GRPC E VALIDAR
-	// order, err := uc.orderRepository.FindOrderByID(orderId)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// if order.GetPreparationStatus() != entities.ORDER_PREPARATION_AWAITING {
-	// 	return nil, errors.ErrOrderNotAwaitingPreparation
-	// }
-
 	payment, err := uc.paymentRepository.FindPaymentByOrderID(orderID)
 	if err != nil {
 		return nil, err
