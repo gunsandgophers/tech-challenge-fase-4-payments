@@ -31,7 +31,7 @@ func (uc *PaymentOrderUseCase) checkValidPaymentStatus(
 	return paymentStatus, nil
 }
 
-func (uc *PaymentOrderUseCase) checkValidOrder(orderId string) (*entities.Payment, error) {
+func (uc *PaymentOrderUseCase) checkValidOrder(orderID string) (*entities.Payment, error) {
 	// DEVERA BUSCAR A ORDER VIA GRPC E VALIDAR
 	// order, err := uc.orderRepository.FindOrderByID(orderId)
 	// if err != nil {
@@ -40,26 +40,27 @@ func (uc *PaymentOrderUseCase) checkValidOrder(orderId string) (*entities.Paymen
 	// if order.GetPreparationStatus() != entities.ORDER_PREPARATION_AWAITING {
 	// 	return nil, errors.ErrOrderNotAwaitingPreparation
 	// }
-	// DEVERA BUSCAR O PAYMENT E VALIDAR
-	// if order.GetPaymentStatus() != entities.ORDER_PAYMENT_AWAITING_PAYMENT {
-	// 	return nil, errors.ErrOrderNotAwaitingPayment
-	// }
-	// return order, nil
-	return nil, nil
+
+	payment, err := uc.paymentRepository.FindPaymentByOrderID(orderID)
+	if err != nil {
+		return nil, err
+	}
+	if payment.GetPaymentStatus() != entities.ORDER_PAYMENT_AWAITING_PAYMENT {
+		return nil, errors.ErrOrderNotAwaitingPayment
+	}
+	return payment, nil
 }
 
 func (uc *PaymentOrderUseCase) processPayment(
-	order *entities.Payment,
+	payment *entities.Payment,
 	paymentStatus entities.OrderPaymentStatus,
 ) error {
-	// DEVE ATUALIZAR O PAGAMENTO
-	// if paymentStatus == entities.ORDER_PAYMENT_PAID {
-	// 	order.PaymentReceived()
-	// } else {
-	// 	order.PaymentRejected()
-	// }
-	// return uc.orderRepository.Update(order)
-	return nil
+	if paymentStatus == entities.ORDER_PAYMENT_PAID {
+		payment.PaymentReceived()
+	} else {
+		payment.PaymentRejected()
+	}
+	return uc.paymentRepository.Update(payment)
 }
 
 func (uc *PaymentOrderUseCase) Execute(

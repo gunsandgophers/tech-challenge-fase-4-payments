@@ -9,44 +9,16 @@ import (
 
 // Registra as rotas dos controllers
 func registerRouters(app *APIApp) {
-	helloController := controllers.NewHelloController()
-	// customerController := controllers.NewCustomerController(app.customerRepository)
-	productController := controllers.NewProductController(app.productRepository)
-	orderController := controllers.NewOrderController(
-		app.orderRepository,
-		app.customerService,
-		app.productRepository,
+	paymentController := controllers.NewPaymentController(
+		app.paymentRepository,
 		app.mercadoPagoGateway,
-		app.eventManager,
-		app.orderDisplayListQuery,
 	)
 
 	baseUrl := "/api/v1"
 	app.httpServer.SetBasePath(baseUrl)
-	app.httpServer.GET("/", helloController.Index)
 
-	//customer
-	// app.httpServer.POST("/customer/", customerController.RegisterCustomer)
-	// app.httpServer.GET("/customer/:cpf/", customerController.GetCustomer)
-
-	//products
-	app.httpServer.POST("/product", productController.CreateProduct)
-	app.httpServer.PUT("/product/:id", productController.UpdateProduct)
-	app.httpServer.DELETE("/product/:id", productController.DeleteProduct)
-	app.httpServer.GET("/product/:category", productController.ListProductsByCategory)
-
-	//orders
-	app.httpServer.POST("/order/checkout", orderController.Checkout)
-	app.httpServer.GET(
-		"/order/:order_id/payment-status",
-		orderController.GetPaymentStatus,
-	)
-	app.httpServer.POST("/order/payment", orderController.Payment)
-	app.httpServer.GET("/order/display", orderController.OrderDisplayList)
-	app.httpServer.PUT(
-		"/order/:order_id/preparation-status",
-		orderController.OrderPreparationStatusUpdate,
-	)
-
+	app.httpServer.GET( "/payment/:order_id", paymentController.GetPaymentStatus)
+	app.httpServer.POST( "/payment/:order_id", paymentController.CreatePayment)
+	app.httpServer.GET( "/payment/:order_id", paymentController.ProcessPayment)
 	app.httpServer.SetSwagger("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
