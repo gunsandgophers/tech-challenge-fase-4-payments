@@ -3,23 +3,23 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    image: tech-challenge-go-app
+    image: tech-challenge-go-app-payments
     restart: always
     ports:
-      - "3003:8080"
+      - "3002:8080"
     volumes:
       - ./:/app
     command: go run main.go
     environment:
-      POSTGRES_DB: tech-challenge-fase
-      POSTGRES_USER: tech-challenge-fase
-      POSTGRES_PASSWORD: tech-challenge-fase
+      POSTGRES_DB: tech-challenge-fase-4-payments
+      POSTGRES_USER: tech-challenge-fase-4-payments
+      POSTGRES_PASSWORD: tech-challenge-fase-4-payments
       AWS_REGION: us-east-1
       AWS_USER_POOL_ID: us-east-1_3ofqHwfxr
     depends_on:
-      db:
+      dbpayments:
         condition: service_healthy
-  db:
+  dbpayments:
     image: postgres:16.3
     restart: always
     ports:
@@ -27,12 +27,12 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: tech-challenge-fase
-      POSTGRES_USER: tech-challenge-fase
-      POSTGRES_PASSWORD: tech-challenge-fase
+      POSTGRES_DB: tech-challenge-fase-4-payments
+      POSTGRES_USER: tech-challenge-fase-4-payments
+      POSTGRES_PASSWORD: tech-challenge-fase-4-payments
       PGDATA: /var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U tech-challenge-fase"]
+      test: ["CMD-SHELL", "pg_isready -U tech-challenge-fase-4-payments"]
       interval: 1s
       timeout: 1s
       retries: 5
@@ -44,22 +44,22 @@ services:
       PGADMIN_DEFAULT_PASSWORD: 12345678
       PGADMIN_LISTEN_PORT: 8080
     ports:
-      - "8080:8080"
+      - "8081:8080"
     volumes:
       - ./data/servers.json:/pgadmin4/servers.json
     depends_on:
-      db:
+      dbpayments:
         condition: service_healthy
   migrate:
     build:
       context: ./migrations
       dockerfile: Dockerfile
-    image: local-migrate
+    image: local-migrate-payments
     environment:
-      DB_URI: "postgres://tech-challenge-fase:tech-challenge-fase@db/tech-challenge-fase?sslmode=disable"
+      DB_URI: "postgres://tech-challenge-fase-4-payments:tech-challenge-fase-4-payments@dbpayments/tech-challenge-fase-4-payments?sslmode=disable"
     restart: on-failure:5
     depends_on:
-      db:
+      dbpayments:
         condition: service_healthy
   # migrate:
   #   image: migrate/migrate

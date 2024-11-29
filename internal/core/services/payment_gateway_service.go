@@ -5,5 +5,5 @@ import (
 )
 
 type PaymentGatewayInterface interface {
-	Execute(order *dtos.OrderDTO, method dtos.MethodType) (*dtos.CheckoutDTO, error)
+	Execute(orderID string, amount float64, method dtos.MethodType) (*dtos.PaymentRequestDTO, error)
 }

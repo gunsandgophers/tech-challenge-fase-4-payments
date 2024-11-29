@@ -1,9 +1,8 @@
 package services
 
 import (
-	"tech-challenge-fase-1/internal/infra/events"
 	"tech-challenge-fase-1/internal/core/dtos"
-	// "time"
+	"tech-challenge-fase-1/internal/infra/events"
 )
 
 type MercadoPagoGateway struct {
@@ -16,16 +15,12 @@ func NewMercadoPagoGateway(eventManager *events.EventManager) *MercadoPagoGatewa
 	}
 }
 
-func (m *MercadoPagoGateway) Execute(order *dtos.OrderDTO, method dtos.MethodType) (*dtos.CheckoutDTO, error) {
-
+func (m *MercadoPagoGateway) Execute(orderID string, amount float64, method dtos.MethodType) (*dtos.PaymentRequestDTO, error) {
 	link := "https://www.pngall.com/wp-content/uploads/2/QR-Code-PNG-Images.png"
-	total := order.Total
-
-	return &dtos.CheckoutDTO{
-		OrderId: order.Id,
-		PaymentLink: &link,
-		Method:      &method,
-		Amount:      &total,
+	return &dtos.PaymentRequestDTO{
+		OrderId:     orderID,
+		PaymentLink: link,
+		Method:      method,
+		Amount:      amount,
 	}, nil
-
 }
