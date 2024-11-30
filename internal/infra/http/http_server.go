@@ -1,7 +1,6 @@
 package httpserver
 
 type HTTPServer interface {
-	SetTrustedProxies(trustedProxies []string) error
 	Run(addr ...string) error
 }
 

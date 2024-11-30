@@ -1,6 +1,7 @@
 package httpserver
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,13 +11,18 @@ type GinHTTPServerAdapter struct {
 }
 
 func NewGinHTTPServerAdapter() *GinHTTPServerAdapter {
-	return &GinHTTPServerAdapter{
+	httpServer := &GinHTTPServerAdapter{
 		Engine: gin.Default(),
 	}
-}
 
-func (g *GinHTTPServerAdapter) SetTrustedProxies(trustedProxies []string) error {
-	return g.Engine.SetTrustedProxies(trustedProxies)
+	httpServer.Engine.SetTrustedProxies(nil)
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"*"}
+	config.AllowMethods = []string{"*"}
+	config.AllowHeaders = []string{"Origin, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization"}
+	httpServer.Engine.Use(cors.New(config))
+
+	return httpServer
 }
 
 func (g *GinHTTPServerAdapter) SetBasePath(basePath string) {

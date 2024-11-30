@@ -3,6 +3,11 @@ package main
 import (
 	_ "tech-challenge-fase-1/docs"
 	"tech-challenge-fase-1/internal/infra/app"
+	"tech-challenge-fase-1/internal/infra/database"
+	"tech-challenge-fase-1/internal/infra/events"
+	httpserver "tech-challenge-fase-1/internal/infra/http"
+	"tech-challenge-fase-1/internal/infra/repositories"
+	"tech-challenge-fase-1/internal/infra/services"
 )
 
 //	@title			Swagger Example API
@@ -24,7 +29,14 @@ import (
 // @externalDocs.description	OpenAPI
 // @externalDocs.url			https://swagger.io/resources/open-api/
 func main() {
-	app := app.NewAPIApp()
+
+	httpServer := httpserver.NewGinHTTPServerAdapter()
+	connection := database.NewPGXConnectionAdapter()
+	paymentRepository := repositories.NewOrderRepositoryDB(connection)
+	eventManager := events.NewEventManager()
+	mercadoPagoGateway := services.NewMercadoPagoGateway(eventManager)
+
+	app := app.NewAPIApp(httpServer, paymentRepository, mercadoPagoGateway)
 	app.Run()
-	defer app.Shutdown()
+	defer connection.Close()
 }
