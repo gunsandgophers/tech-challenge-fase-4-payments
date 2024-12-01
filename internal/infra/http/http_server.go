@@ -1,15 +1,18 @@
 package httpserver
 
+import "net/http"
+
 type HTTPServer interface {
 	Run(addr ...string) error
+	ServeHTTP(w http.ResponseWriter, req *http.Request)
 }
 
 type HTTPRoutes interface {
-	GET(string, HTTPHandlerFunc)
-	POST(string, HTTPHandlerFunc)
-	DELETE(string, HTTPHandlerFunc)
-	PATCH(string, HTTPHandlerFunc)
-	PUT(string, HTTPHandlerFunc)
+	GET(string, ...HTTPHandlerFunc)
+	POST(string, ...HTTPHandlerFunc)
+	DELETE(string, ...HTTPHandlerFunc)
+	PATCH(string, ...HTTPHandlerFunc)
+	PUT(string, ...HTTPHandlerFunc)
 	SetBasePath(basePath string)
 	SetSwagger(string)
 }
