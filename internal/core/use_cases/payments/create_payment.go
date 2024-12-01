@@ -36,7 +36,7 @@ func (uc *CreatePaymentUseCase) getPayment(orderId string, amount float64) (*ent
 	}
 
 	paymentStatus := payment.GetPaymentStatus()
-	if paymentStatus != entities.ORDER_PAYMENT_REJECTED || paymentStatus != entities.ORDER_PAYMENT_AWAITING_PAYMENT {
+	if paymentStatus != entities.ORDER_PAYMENT_REJECTED && paymentStatus != entities.ORDER_PAYMENT_AWAITING_PAYMENT {
 		return nil, errors.ErrInvalidPaymentStatus
 	}
 	payment.UpdateAmount(amount)

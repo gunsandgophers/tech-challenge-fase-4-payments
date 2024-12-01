@@ -1,7 +1,11 @@
 package httpserver
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type GinHTTPServerAdapter struct {
@@ -10,13 +14,17 @@ type GinHTTPServerAdapter struct {
 }
 
 func NewGinHTTPServerAdapter() *GinHTTPServerAdapter {
-	return &GinHTTPServerAdapter{
+	httpServer := &GinHTTPServerAdapter{
 		Engine: gin.Default(),
 	}
-}
 
-func (g *GinHTTPServerAdapter) SetTrustedProxies(trustedProxies []string) error {
-	return g.Engine.SetTrustedProxies(trustedProxies)
+	httpServer.Engine.SetTrustedProxies(nil)
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"*"}
+	config.AllowMethods = []string{"*"}
+	config.AllowHeaders = []string{"Origin, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization"}
+	httpServer.Engine.Use(cors.New(config))
+	return httpServer
 }
 
 func (g *GinHTTPServerAdapter) SetBasePath(basePath string) {
@@ -27,8 +35,8 @@ func (g *GinHTTPServerAdapter) Run(adds ...string) error {
 	return g.Engine.Run(adds...)
 }
 
-func (g *GinHTTPServerAdapter) SetSwagger(path string, callback gin.HandlerFunc) {
-	g.Engine.GET(g.basePath+path, callback)
+func (g *GinHTTPServerAdapter) SetSwagger(path string) {
+	g.Engine.GET(g.basePath+path, ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
 
 func (g *GinHTTPServerAdapter) GET(path string, callback func(HTTPContext)) {

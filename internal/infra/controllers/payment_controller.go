@@ -23,28 +23,6 @@ func NewPaymentController(
 	}
 }
 
-// func (cc *OrderController) Checkout(c httpserver.HTTPContext) {
-// 	request := CheckoutRequest{}
-// 	c.BindJSON(&request)
-// 	if err := request.Validate(); err != nil {
-// 		sendError(c, http.StatusBadRequest, err.Error())
-// 		return
-// 	}
-// 	checkoutUseCase := orders.NewCheckoutOrderUseCase(
-// 		cc.orderRepository,
-// 		cc.customerService,
-// 		cc.productRepository,
-// 		cc.paymentGateway,
-// 		cc.commandEventManager,
-// 	)
-// 	checkout, err := checkoutUseCase.Execute(request.CustomerId, request.ProductsIds)
-// 	if err != nil {
-// 		sendError(c, http.StatusNotAcceptable, err.Error())
-// 		return
-// 	}
-// 	sendSuccess(c, http.StatusCreated, "checkout-order", checkout)
-// }
-
 // PaymentRequest
 //
 //	@Summary		Request new payment
