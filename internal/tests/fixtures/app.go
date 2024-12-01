@@ -8,7 +8,7 @@ import (
 )
 
 
-func NewAPIAppBDDTest(
+func NewAPIAppIntegrationTest(
 	paymentRepository repositories.PaymentRepositoryInterface,
 	paymentGateway services.PaymentGatewayInterface,
 ) *app.APIApp {

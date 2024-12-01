@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"net/http"
-	"tech-challenge-fase-1/internal/core/use_cases/payments"
 	"tech-challenge-fase-1/internal/core/repositories"
 	"tech-challenge-fase-1/internal/core/services"
+	"tech-challenge-fase-1/internal/core/use_cases/payments"
 	httpserver "tech-challenge-fase-1/internal/infra/http"
 )
 

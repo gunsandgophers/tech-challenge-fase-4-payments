@@ -4,7 +4,6 @@ import (
 	_ "tech-challenge-fase-1/docs"
 	"tech-challenge-fase-1/internal/infra/app"
 	"tech-challenge-fase-1/internal/infra/database"
-	"tech-challenge-fase-1/internal/infra/events"
 	httpserver "tech-challenge-fase-1/internal/infra/http"
 	"tech-challenge-fase-1/internal/infra/repositories"
 	"tech-challenge-fase-1/internal/infra/services"
@@ -33,8 +32,7 @@ func main() {
 	httpServer := httpserver.NewGinHTTPServerAdapter()
 	connection := database.NewPGXConnectionAdapter()
 	paymentRepository := repositories.NewOrderRepositoryDB(connection)
-	eventManager := events.NewEventManager()
-	mercadoPagoGateway := services.NewMercadoPagoGateway(eventManager)
+	mercadoPagoGateway := services.NewMercadoPagoGateway()
 
 	app := app.NewAPIApp(httpServer, paymentRepository, mercadoPagoGateway)
 	app.Run()

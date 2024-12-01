@@ -28,7 +28,7 @@ type responseCtxKey struct{}
 
 type Dependencies struct {
 	paymentRepository *mocks.PaymentRepositoryMock
-	paymentGateway *mocks.PaymentGatewayMock
+	paymentGateway    *mocks.PaymentGatewayMock
 }
 
 func newPaymentRequest(ctx context.Context) (context.Context, error) {
@@ -75,14 +75,14 @@ func sendCreatePaymentRequest(
 	app := ctx.Value(appCtxKey{}).(*app.APIApp)
 	w := httptest.NewRecorder()
 	body, _ := json.Marshal(request)
-	req, _ := http.NewRequest("POST", "/api/v1/payment/" + orderID, bytes.NewReader(body))
+	req, _ := http.NewRequest("POST", "/api/v1/payment/"+orderID, bytes.NewReader(body))
 	app.HTTPServer().ServeHTTP(w, req)
 	return context.WithValue(ctx, responseCtxKey{}, w), nil
 }
 
 type ResponseCreatePayment struct {
-	Data dtos.PaymentRequestDTO `json:"data,omitempty"`
-	Message string `json:"message,omitempty"`
+	Data    dtos.PaymentRequestDTO `json:"data,omitempty"`
+	Message string                 `json:"message,omitempty"`
 }
 
 func paymentCreatedWith(ctx context.Context, orderID string) error {
@@ -117,25 +117,25 @@ func paymentCreatedWith(ctx context.Context, orderID string) error {
 func TestFeatures(t *testing.T) {
 	dependencies := &Dependencies{
 		paymentRepository: &mocks.PaymentRepositoryMock{},
-		paymentGateway: &mocks.PaymentGatewayMock{},
+		paymentGateway:    &mocks.PaymentGatewayMock{},
 	}
 
-	app := fixtures.NewAPIAppBDDTest(dependencies.paymentRepository, dependencies.paymentGateway)
+	app := fixtures.NewAPIAppIntegrationTest(dependencies.paymentRepository, dependencies.paymentGateway)
 	ctx := context.WithValue(context.Background(), appCtxKey{}, app)
 	ctx = context.WithValue(ctx, dependenciesCtxKey{}, dependencies)
-  suite := godog.TestSuite{
-    ScenarioInitializer: InitializeScenario,
-    Options: &godog.Options{
-      Format:   "pretty",
-      Paths:    []string{"features"},
+	suite := godog.TestSuite{
+		ScenarioInitializer: InitializeScenario,
+		Options: &godog.Options{
+			Format:         "pretty",
+			Paths:          []string{"features"},
 			DefaultContext: ctx,
-      TestingT: t, // Testing instance that will run subtests.
-    },
-  }
+			TestingT:       t, // Testing instance that will run subtests.
+		},
+	}
 
-  if suite.Run() != 0 {
-    t.Fatal("non-zero status returned, failed to run feature tests")
-  }
+	if suite.Run() != 0 {
+		t.Fatal("non-zero status returned, failed to run feature tests")
+	}
 }
 
 func InitializeScenario(sc *godog.ScenarioContext) {
@@ -148,4 +148,3 @@ func InitializeScenario(sc *godog.ScenarioContext) {
 		paymentCreatedWith,
 	)
 }
-
