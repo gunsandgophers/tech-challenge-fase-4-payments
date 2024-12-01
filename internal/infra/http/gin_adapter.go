@@ -1,6 +1,8 @@
 package httpserver
 
 import (
+	"net/http"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
@@ -39,47 +41,51 @@ func (g *GinHTTPServerAdapter) SetSwagger(path string) {
 	g.Engine.GET(g.basePath+path, ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
 
-func (g *GinHTTPServerAdapter) GET(path string, callback func(HTTPContext)) {
+func createHandlerFuncs(callbacks ...HTTPHandlerFunc) []gin.HandlerFunc {
+	var handlers []gin.HandlerFunc
+	for _, c := range callbacks {
+		handlers = append(handlers, func(ctx *gin.Context){
+			c(ctx)
+		})
+	}
+	return handlers
+}
+
+func (g *GinHTTPServerAdapter) GET(path string, callbacks ...HTTPHandlerFunc) {
 	g.Engine.GET(
 		g.basePath+path,
-		func(c *gin.Context) {
-			callback(c)
-		},
+		createHandlerFuncs(callbacks...)...,
 	)
 }
 
-func (g *GinHTTPServerAdapter) POST(path string, callback func(HTTPContext)) {
+func (g *GinHTTPServerAdapter) POST(path string, callbacks ...HTTPHandlerFunc) {
 	g.Engine.POST(
 		g.basePath+path,
-		func(c *gin.Context) {
-			callback(c)
-		},
+		createHandlerFuncs(callbacks...)...,
 	)
 }
 
-func (g *GinHTTPServerAdapter) PUT(path string, callback func(HTTPContext)) {
+func (g *GinHTTPServerAdapter) PUT(path string, callbacks ...HTTPHandlerFunc) {
 	g.Engine.PUT(
 		g.basePath+path,
-		func(c *gin.Context) {
-			callback(c)
-		},
+		createHandlerFuncs(callbacks...)...,
 	)
 }
 
-func (g *GinHTTPServerAdapter) PATCH(path string, callback func(HTTPContext)) {
+func (g *GinHTTPServerAdapter) PATCH(path string, callbacks ...HTTPHandlerFunc) {
 	g.Engine.PATCH(
 		g.basePath+path,
-		func(c *gin.Context) {
-			callback(c)
-		},
+		createHandlerFuncs(callbacks...)...,
 	)
 }
 
-func (g *GinHTTPServerAdapter) DELETE(path string, callback func(HTTPContext)) {
+func (g *GinHTTPServerAdapter) DELETE(path string, callbacks ...HTTPHandlerFunc) {
 	g.Engine.DELETE(
 		g.basePath+path,
-		func(c *gin.Context) {
-			callback(c)
-		},
+		createHandlerFuncs(callbacks...)...,
 	)
+}
+
+func (g *GinHTTPServerAdapter) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	g.Engine.ServeHTTP(w, req)
 }

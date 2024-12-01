@@ -49,7 +49,7 @@ func (ctrl *PaymentController) CreatePayment(c httpserver.HTTPContext) {
 		sendError(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	sendSuccess(c, http.StatusOK, "new-payment", paymentDTO)
+	sendSuccess(c, http.StatusCreated, "new-payment", paymentDTO)
 }
 
 // GetPaymentStatus godoc
