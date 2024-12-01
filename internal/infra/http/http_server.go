@@ -5,12 +5,13 @@ type HTTPServer interface {
 }
 
 type HTTPRoutes interface {
-	GET(string, HTTPHandlerFunc) HTTPRoutes
-	POST(string, HTTPHandlerFunc) HTTPRoutes
-	DELETE(string, HTTPHandlerFunc) HTTPRoutes
-	PATCH(string, HTTPHandlerFunc) HTTPRoutes
-	PUT(string, HTTPHandlerFunc) HTTPRoutes
-	SetBasePath(basePath string) HTTPRoutes
+	GET(string, HTTPHandlerFunc)
+	POST(string, HTTPHandlerFunc)
+	DELETE(string, HTTPHandlerFunc)
+	PATCH(string, HTTPHandlerFunc)
+	PUT(string, HTTPHandlerFunc)
+	SetBasePath(basePath string)
+	SetSwagger(string)
 }
 
 type HTTPContext interface {

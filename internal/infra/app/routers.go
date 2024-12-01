@@ -2,23 +2,21 @@ package app
 
 import (
 	"tech-challenge-fase-1/internal/infra/controllers"
-
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
+	httpserver "tech-challenge-fase-1/internal/infra/http"
 )
 
 // Registra as rotas dos controllers
 func registerRouters(app *APIApp) {
 	paymentController := controllers.NewPaymentController(
 		app.paymentRepository,
-		app.mercadoPagoGateway,
+		app.paymentGateway,
 	)
 
 	baseUrl := "/api/v1"
-	app.httpServer.SetBasePath(baseUrl)
+	app.httpServer.(httpserver.HTTPRoutes).SetBasePath(baseUrl)
 
-	app.httpServer.GET( "/payment/:order_id", paymentController.GetPaymentStatus)
-	app.httpServer.POST( "/payment/:order_id", paymentController.CreatePayment)
-	app.httpServer.GET( "/payment/:order_id", paymentController.ProcessPayment)
-	app.httpServer.SetSwagger("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	app.httpServer.(httpserver.HTTPRoutes).GET( "/payment/:order_id", paymentController.GetPaymentStatus)
+	app.httpServer.(httpserver.HTTPRoutes).POST( "/payment/:order_id", paymentController.CreatePayment)
+	app.httpServer.(httpserver.HTTPRoutes).GET( "/payment/:order_id", paymentController.ProcessPayment)
+	app.httpServer.(httpserver.HTTPRoutes).SetSwagger("/swagger/*any")
 }

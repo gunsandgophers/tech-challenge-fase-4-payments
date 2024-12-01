@@ -23,10 +23,13 @@ swagger-mac:
 	docker run --platform linux/amd64 --rm -v ./:/code ghcr.io/swaggo/swag:latest init
 
 test:
-	go test ./...
+	go test ./internal/core/...
 
 test/coverage:
-	go test ./... -coverprofile=cover.out
+	go test ./internal/core/... -coverprofile=cover.out
 
 test/output:
 	go tool cover -html=cover.out
+
+test/bdd:
+	go test -v ./internal/tests/bdd/...
