@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"tech-challenge-fase-1/internal/infra/controllers"
 	httpserver "tech-challenge-fase-1/internal/infra/http"
 )
