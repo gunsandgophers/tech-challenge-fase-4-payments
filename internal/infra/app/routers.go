@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"tech-challenge-fase-1/internal/infra/controllers"
 	httpserver "tech-challenge-fase-1/internal/infra/http"
 )
@@ -12,11 +13,13 @@ func registerRouters(app *APIApp) {
 		app.paymentGateway,
 	)
 
+	fmt.Printf("teste")
+
 	baseUrl := "/api/v1"
 	app.httpServer.(httpserver.HTTPRoutes).SetBasePath(baseUrl)
 
-	app.httpServer.(httpserver.HTTPRoutes).GET( "/payment/:order_id", paymentController.GetPaymentStatus)
-	app.httpServer.(httpserver.HTTPRoutes).POST( "/payment/:order_id", paymentController.CreatePayment)
-	app.httpServer.(httpserver.HTTPRoutes).POST( "/payment/:order_id/process", paymentController.ProcessPayment)
+	app.httpServer.(httpserver.HTTPRoutes).GET("/payment/:order_id", paymentController.GetPaymentStatus)
+	app.httpServer.(httpserver.HTTPRoutes).POST("/payment/:order_id", paymentController.CreatePayment)
+	app.httpServer.(httpserver.HTTPRoutes).POST("/payment/:order_id/process", paymentController.ProcessPayment)
 	app.httpServer.(httpserver.HTTPRoutes).SetSwagger("/swagger/*any")
 }
