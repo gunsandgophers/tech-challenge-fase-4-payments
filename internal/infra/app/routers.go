@@ -13,8 +13,6 @@ func registerRouters(app *APIApp) {
 		app.paymentGateway,
 	)
 
-	fmt.Printf("teste")
-
 	baseUrl := "/api/v1"
 	app.httpServer.(httpserver.HTTPRoutes).SetBasePath(baseUrl)
 
