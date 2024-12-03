@@ -43,7 +43,7 @@ jobs:
 
       - name: Migrate
         env:
-          DB_URL: postgres://tech_challenge_fase_4:sQun046junsM2ep@tech-challenge-fase-4-rds.cdmsim2u8a3c.us-east-1.rds.amazonaws.com/tech-challenge-fase-4-payment
+          DB_URL: ${{ secrets.DB_URI }}
         run: make migrate
 
       - name: Set up QEMU
