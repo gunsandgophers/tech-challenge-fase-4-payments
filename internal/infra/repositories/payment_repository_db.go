@@ -67,7 +67,7 @@ func (r *PaymentRepositoryDB) toEntity(row database.RowDB) (*entities.Payment, e
 	err := row.Scan(&id, &orderID, &amount, &paymentStatus)
 	if err != nil {
 		if err.Error() == ErrNotFound {
-			return nil, ErrOrderNotFound
+			return nil, nil
 		}
 		return nil, err
 	}

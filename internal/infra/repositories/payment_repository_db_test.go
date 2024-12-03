@@ -91,7 +91,7 @@ func TestFindPaymentByOrderIDWithErrNotFound(t *testing.T) {
 
 	_, err := repo.FindPaymentByOrderID(payment.GetOrderID())
 
-	assert.EqualError(t, err, ErrOrderNotFound.Error())
+	assert.Nil(t, err)
 }
 
 func TestFindPaymentByOrderIDWithError(t *testing.T) {
