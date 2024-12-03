@@ -31,7 +31,7 @@ func NewPaymentController(
 //	@Accept			json
 //	@Produce		json
 //	@Param			order_id	path		string	true	"Get Payment Status"
-//	@Param			payment_request	path		CreatePaymentRequest	true	"Payment Request"
+//	@Param			payment_request	body		CreatePaymentRequest	true	"Payment Request"
 //	@Success		200			{object}	dtos.PaymentRequestDTO
 //	@Failure		400			{string}	string	"when bad request"
 //	@Failure		406			{string}	string	"when invalid params or invalid object"

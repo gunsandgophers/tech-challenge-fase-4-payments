@@ -6,6 +6,7 @@ import (
 	"tech-challenge-fase-1/internal/core/errors"
 	"tech-challenge-fase-1/internal/core/repositories"
 	"tech-challenge-fase-1/internal/core/services"
+	infra "tech-challenge-fase-1/internal/infra/repositories"
 )
 
 type CreatePaymentUseCase struct {
@@ -19,14 +20,16 @@ func NewCreatePaymentUseCase(
 ) *CreatePaymentUseCase {
 	return &CreatePaymentUseCase{
 		paymentRepository: paymentRepository,
-		paymentGateway: paymentGateway,
+		paymentGateway:    paymentGateway,
 	}
 }
 
 func (uc *CreatePaymentUseCase) getPayment(orderId string, amount float64) (*entities.Payment, error) {
 	payment, err := uc.paymentRepository.FindPaymentByOrderID(orderId)
 	if err != nil {
-		return nil, err
+		if err != infra.ErrOrderNotFound {
+			return nil, err
+		}
 	}
 
 	if payment == nil {

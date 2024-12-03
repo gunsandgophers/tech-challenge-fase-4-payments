@@ -1,5 +1,10 @@
 basePath: /api/v1
 definitions:
+  controllers.CreatePaymentRequest:
+    properties:
+      amount:
+        type: number
+    type: object
   controllers.ProcessPaymentRequest:
     properties:
       payment_status:
@@ -86,9 +91,12 @@ paths:
         name: order_id
         required: true
         type: string
-      - in: path
-        name: amount
-        type: number
+      - description: Payment Request
+        in: body
+        name: payment_request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.CreatePaymentRequest'
       produces:
       - application/json
       responses:

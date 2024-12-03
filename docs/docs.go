@@ -88,9 +88,13 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "number",
-                        "name": "amount",
-                        "in": "path"
+                        "description": "Payment Request",
+                        "name": "payment_request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.CreatePaymentRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -163,6 +167,14 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "controllers.CreatePaymentRequest": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                }
+            }
+        },
         "controllers.ProcessPaymentRequest": {
             "type": "object",
             "properties": {
