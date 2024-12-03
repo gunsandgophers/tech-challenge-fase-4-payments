@@ -43,7 +43,7 @@ jobs:
 
       - name: Migrate
         env:
-          DB_URL: ${{ secrets.DB_URI }}
+          DB_URI: ${{ secrets.DB_URI }}
         run: make migrate
 
       - name: Set up QEMU
