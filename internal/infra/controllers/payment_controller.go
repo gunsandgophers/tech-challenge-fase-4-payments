@@ -23,7 +23,7 @@ func NewPaymentController(
 	}
 }
 
-// PaymentRequest
+// CreatePayment godoc
 //
 //	@Summary		Request new payment
 //	@Description	request a new payment by order_id
@@ -31,6 +31,7 @@ func NewPaymentController(
 //	@Accept			json
 //	@Produce		json
 //	@Param			order_id	path		string	true	"Get Payment Status"
+//	@Param			payment_request	path		CreatePaymentRequest	true	"Payment Request"
 //	@Success		200			{object}	dtos.PaymentRequestDTO
 //	@Failure		400			{string}	string	"when bad request"
 //	@Failure		406			{string}	string	"when invalid params or invalid object"
@@ -75,18 +76,18 @@ func (ctrl *PaymentController) GetPaymentStatus(c httpserver.HTTPContext) {
 	sendSuccess(c, http.StatusOK, "get-payment", paymentStatus)
 }
 
-// Payment godoc
+// Process Payment godoc
 //
 //	@Summary		Process order payment
 //	@Description	process the payment for an order
 //	@Tags			orders
 //	@Accept			json
 //	@Produce		json
-//	@Param			payment	body		PaymentRequest	true	"Payment"
+//	@Param			payment	body		ProcessPaymentRequest	true	"Process Payment Request"
 //	@Success		200		{object}	string			""
 //	@Failure		400		{string}	string			"when bad request"
 //	@Failure		406		{string}	string			"when invalid params or invalid object"
-//	@Router			/payment/{order_id} [put]
+//	@Router			/payment/{order_id}/process [put]
 func (ctrl *PaymentController) ProcessPayment(c httpserver.HTTPContext) {
 	orderID := c.Param("order_id")
 	request := &ProcessPaymentRequest{}
