@@ -120,7 +120,7 @@ const docTemplate = `{
             }
         },
         "/payment/{order_id}/process": {
-            "put": {
+            "post": {
                 "description": "process the payment for an order",
                 "consumes": [
                     "application/json"
@@ -133,6 +133,13 @@ const docTemplate = `{
                 ],
                 "summary": "Process order payment",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process Payment Request",
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "Process Payment Request",
                         "name": "payment",

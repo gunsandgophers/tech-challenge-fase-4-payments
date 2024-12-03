@@ -116,11 +116,16 @@ paths:
       tags:
       - orders
   /payment/{order_id}/process:
-    put:
+    post:
       consumes:
       - application/json
       description: process the payment for an order
       parameters:
+      - description: Process Payment Request
+        in: path
+        name: order_id
+        required: true
+        type: string
       - description: Process Payment Request
         in: body
         name: payment

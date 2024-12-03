@@ -83,11 +83,12 @@ func (ctrl *PaymentController) GetPaymentStatus(c httpserver.HTTPContext) {
 //	@Tags			orders
 //	@Accept			json
 //	@Produce		json
+//	@Param			order_id	path		string	true	"Process Payment Request"
 //	@Param			payment	body		ProcessPaymentRequest	true	"Process Payment Request"
 //	@Success		200		{object}	string			""
 //	@Failure		400		{string}	string			"when bad request"
 //	@Failure		406		{string}	string			"when invalid params or invalid object"
-//	@Router			/payment/{order_id}/process [put]
+//	@Router			/payment/{order_id}/process [post]
 func (ctrl *PaymentController) ProcessPayment(c httpserver.HTTPContext) {
 	orderID := c.Param("order_id")
 	request := &ProcessPaymentRequest{}

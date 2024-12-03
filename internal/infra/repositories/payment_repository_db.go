@@ -47,7 +47,7 @@ func (r *PaymentRepositoryDB) Update(payment *entities.Payment) error {
 	SET
 		id_order = $1,
 		amount = $2,
-		payment_status = $3,
+		payment_status = $3
 	WHERE id = $4
 	`
 	return r.conn.Exec(
