@@ -9,24 +9,32 @@ import (
 	"tech-challenge-fase-1/internal/infra/services"
 )
 
-//	@title			Swagger Example API
-//	@version		1.0
-//	@description	This is a sample server celler server.
-//	@termsOfService	http://swagger.io/terms/
+// asd asd
+// asd asd
+// asd asd
+// asd asd
+// asd asd
+// asd asd
 
-//	@contact.name	API Support
-//	@contact.url	http://www.swagger.io/support
-//	@contact.email	support@swagger.io
+// @title           Swagger Example API
+// @version         1.0
+// @description     This is a sample server celler server.
+// @termsOfService  http://swagger.io/terms/
 
-//	@license.name	Apache 2.0
-//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
 
-//	@BasePath	/api/v1
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
-//	@securityDefinitions.basic	BasicAuth
+// @host      localhost:8080
+// @BasePath  /api/v1
 
-// @externalDocs.description	OpenAPI
-// @externalDocs.url			https://swagger.io/resources/open-api/
+// @securityDefinitions.basic  BasicAuth
+
+// @externalDocs.description  OpenAPI
+// @externalDocs.url          https://swagger.io/resources/open-api/
 func main() {
 
 	httpServer := httpserver.NewGinHTTPServerAdapter()
