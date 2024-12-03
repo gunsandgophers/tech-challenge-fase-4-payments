@@ -36,7 +36,7 @@ func (r *PaymentRepositoryDB) FindPaymentByOrderID(orderId string) (*entities.Pa
 		amount,
 		payment_status
 	FROM payments
-	WHERE id = $1`
+	WHERE id_order = $1`
 	row := r.conn.QueryRow(sql, orderId)
 	return r.toEntity(row)
 }
