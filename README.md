@@ -8,10 +8,10 @@ Links:
 
 <https://miro.com/app/board/uXjVKQtHwOA=/>
 
-## Architecture
+## Evidence of the tests carried out
 
+<img width="1473" alt="Screenshot 2024-12-03 at 21 47 44" src="https://github.com/user-attachments/assets/b1a6b88a-53f3-488b-963d-1f030421b177">
 
-![TechChallengeApp Kubernetes](https://github.com/user-attachments/assets/5032e83b-b429-4d6b-a41a-eb916e71fac5)
 
 ## Run project
 
